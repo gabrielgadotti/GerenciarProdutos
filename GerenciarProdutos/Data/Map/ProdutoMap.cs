@@ -13,7 +13,7 @@ namespace GerenciarProdutos.Data.Map
             builder.Property(x => x.Descricao).IsRequired().HasMaxLength(1000);
             builder.Property(x => x.SituacaoProduto).IsRequired();
             builder.Property(x => x.Preco).IsRequired();
-            //builder.Property(x => x.Categoria).IsRequired();
+            builder.HasOne(x => x.Categoria).WithMany().HasForeignKey("CategoriaId");
         }
     }
 }

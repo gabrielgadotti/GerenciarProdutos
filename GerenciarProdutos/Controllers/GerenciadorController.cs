@@ -1,4 +1,5 @@
-﻿using GerenciarProdutos.Enums;
+﻿using GerenciarProdutos.DTO;
+using GerenciarProdutos.Enums;
 using GerenciarProdutos.Models;
 using GerenciarProdutos.Repositorios.Interfaces;
 using Microsoft.AspNetCore.Mvc;
@@ -25,9 +26,9 @@ namespace GerenciarProdutos.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("produtos")]
-        public ActionResult<List<ProdutoModel>> BuscarProdutos()
+        public async Task<ActionResult<List<ProdutoModel>>> BuscarProdutos()
         {
-            return Ok();
+            return Ok(await _produtoRepositorio.BuscarProdutos());
         }
 
         [HttpGet("produto/{id}")]   
@@ -37,36 +38,36 @@ namespace GerenciarProdutos.Controllers
             return Ok(produto);
         }
 
-        [HttpGet("produto/{descricao}")]
+        [HttpGet("produtopordescricao/{descricao}")]
         public async Task<ActionResult<ProdutoModel>> BuscarProdutoPorDescricao(string descricao)
         {
             var produto = await _produtoRepositorio.BuscarPorDescricao(descricao);
             return Ok(produto);
         }
 
-        [HttpGet("produto/{situacao}")]
+        [HttpGet("produtoporsituacao/{situacao}")]
         public async Task<ActionResult<ProdutoModel>> BuscarProdutoPorSituacao(Situacao situacao)
         {
             var produto = await _produtoRepositorio.BuscarPorSituacao(situacao);
             return Ok(produto);
         }
 
-        //[HttpGet("produto/{categoria}")]
-        //public async Task<ActionResult<ProdutoModel>> BuscarProdutoPorCategoria()
-        //{
-        //    var produto = await _produtoRepositorio.BuscarPorCategoria();
-        //    return Ok(produto);
-        //}
+        [HttpGet("produtoporcategoria/{nome}")]
+        public async Task<ActionResult<ProdutoModel>> BuscarProdutoPorCategoria(string nome)
+        {
+            var produto = await _produtoRepositorio.BuscarPorCategoria(nome);
+            return Ok(produto);
+        }
 
 
         [HttpPost("cadastrarproduto")]
-        public async Task<ActionResult<ProdutoModel>> CadastrarProduto([FromBody] ProdutoModel produtoModel)
+        public async Task<ActionResult<ProdutoModel>> CadastrarProduto([FromBody] CriarProdutoDTO produtoModel)
         {
             var produto = await _produtoRepositorio.Adicionar(produtoModel);
             return Ok(produto);
         }
 
-        [HttpPost("atualizarrproduto/{id}")]
+        [HttpPost("atualizarproduto/{id}")]
         public async Task<ActionResult<ProdutoModel>> AtualizarProduto([FromBody] ProdutoModel produtoModel, int id)
         {
             produtoModel.Id = id;
@@ -87,20 +88,20 @@ namespace GerenciarProdutos.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet("categorias")]
-        public ActionResult<List<CategoriaModel>> BuscarCategorias()
+        public async Task<ActionResult<List<CategoriaModel>>> BuscarCategorias()
         {
-            return Ok();    
+            return Ok(await _categoriaRepositorio.BuscarPorCategoria());    
         }
 
 
-        [HttpGet("categoria/{nome}")]
+        [HttpGet("categoriapornome/{nome}")]
         public async Task<ActionResult<CategoriaModel>> BuscarCategoriaPorNome(string nome)
         {
             var categoria = await _categoriaRepositorio.BuscarPorNome(nome);
             return Ok(categoria);
         }
 
-        [HttpGet("categoria/{situacao}")]
+        [HttpGet("categoriaporsituacao/{situacao}")]
         public async Task<ActionResult<CategoriaModel>> BuscarCategoriaPorSituacao(Situacao situacao)
         {
             var categoria = await _categoriaRepositorio.BuscarPorSituacao(situacao);

@@ -2,7 +2,7 @@
 
 namespace GerenciarProdutos.Models
 {
-    public class CategoriaModel //: ProdutoModel
+    public class CategoriaModel 
     {
         public int Id { get; set; }
         public string? Nome { get; set; }

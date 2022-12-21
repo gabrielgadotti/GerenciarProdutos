@@ -1,4 +1,5 @@
 ﻿using GerenciarProdutos.Data;
+using GerenciarProdutos.DTO;
 using GerenciarProdutos.Enums;
 using GerenciarProdutos.Models;
 using GerenciarProdutos.Repositorios.Interfaces;
@@ -26,11 +27,11 @@ namespace GerenciarProdutos.Repositorios
 
         }
 
-        //public async Task<ProdutoModel> BuscarPorCategoria(CategoriaModel categoria)
-        //{
-        //    return await _dbContex.Produtos.FirstOrDefaultAsync(x => x.Categoria.Nome == categoria.Nome);
+        public async Task<ProdutoModel> BuscarPorCategoria(string nome)
+        {
+            return await _dbContex.Produtos.FirstOrDefaultAsync(x => x.Categoria.Nome == nome);
 
-        //}
+        }
 
         public async Task<ProdutoModel> BuscarPorDescricao(string descricao)
         {
@@ -43,8 +44,11 @@ namespace GerenciarProdutos.Repositorios
         }
 
 
-        public async Task<ProdutoModel> Adicionar(ProdutoModel produto)
+        public async Task<ProdutoModel> Adicionar(CriarProdutoDTO produtoDto)
         {
+            var categoria = await _dbContex.Categorias.FindAsync(produtoDto.CategoriaId);
+
+            var produto = new ProdutoModel(produtoDto, categoria);
             await _dbContex.Produtos.AddAsync(produto);
             await _dbContex.SaveChangesAsync();
 
@@ -62,8 +66,8 @@ namespace GerenciarProdutos.Repositorios
             produtoPorId.Descricao = produto.Descricao;
             produtoPorId.SituacaoProduto = produto.SituacaoProduto;
             produtoPorId.Preco = produto.Preco;
-            //produtoPorId.Categoria.SituacaoCategoria = produto.Categoria.SituacaoCategoria;
-            //produtoPorId.Categoria.Nome = produto.Categoria.Nome;
+            produtoPorId.Categoria.SituacaoCategoria = produto.Categoria.SituacaoCategoria;
+            produtoPorId.Categoria.Nome = produto.Categoria.Nome;
 
             _dbContex.Update(produtoPorId);
             await _dbContex.SaveChangesAsync();

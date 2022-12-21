@@ -1,4 +1,5 @@
-﻿using GerenciarProdutos.Enums;
+﻿using GerenciarProdutos.DTO;
+using GerenciarProdutos.Enums;
 using GerenciarProdutos.Models;
 
 namespace GerenciarProdutos.Repositorios.Interfaces
@@ -8,11 +9,11 @@ namespace GerenciarProdutos.Repositorios.Interfaces
         Task<ProdutoModel> BuscarProdutoPorId(int id);
 
         Task<List<ProdutoModel>> BuscarProdutos();
-        //Task<ProdutoModel> BuscarPorCategoria(CategoriaModel categoria);
+        Task<ProdutoModel> BuscarPorCategoria(string nome);
         Task<ProdutoModel> BuscarPorDescricao(string descricao);
         Task<ProdutoModel> BuscarPorSituacao(Situacao situacao);
 
-        Task<ProdutoModel> Adicionar(ProdutoModel produto);
+        Task<ProdutoModel> Adicionar(CriarProdutoDTO produto);
         Task<ProdutoModel> Atualizar(ProdutoModel produto, int id);
 
         Task<bool> Apagar(int id);

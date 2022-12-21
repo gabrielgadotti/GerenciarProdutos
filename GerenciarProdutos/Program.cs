@@ -18,10 +18,10 @@ namespace GerenciarProdutos
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
 
+
             builder.Services.AddEntityFrameworkSqlServer()
                 .AddDbContext<GerenciarProdutosDBContex>(
-                    options => options.UseSqlServer(builder.Configuration.GetConnectionString("DataBase"))
-                );
+                    options => options.UseInMemoryDatabase("GerenciarProdutos"), ServiceLifetime.Singleton);
 
             builder.Services.AddScoped<IProdutoRepositorio, ProdutoRepositorio>();
             builder.Services.AddScoped<ICategoriaRepositorio, CategoriaRepositorio>();
