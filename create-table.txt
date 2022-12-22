@@ -1,0 +1,15 @@
+CREATE TABLE [dbo].[Produtos](
+	[Id] bigint IDENTITY(1,1) NOT NULL,
+	[Nome] varchar(255) NULL,
+	[Descricao] varchar(1000) NULL,
+	[Situacao] int NOT NULL,
+	[Preco] decimal
+ CONSTRAINT [PK_Produtos] PRIMARY KEY CLUSTERED 
+([Id] ASC)
+
+CREATE TABLE [dbo].[Categorias](
+	[Id] bigint IDENTITY(1,1) NOT NULL,
+	[Nome] varchar(255) NULL,
+	[Situacao] int NOT NULL,
+ CONSTRAINT [PK_Categorias] PRIMARY KEY CLUSTERED 
+([Id] ASC)
